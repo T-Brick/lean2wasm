@@ -29,4 +29,5 @@ script js (args : List String) do
     args   := (".lake/build/wasm/main.js" :: args).toArray
   }
   IO.print out.stdout
+  IO.print out.stderr
   return out.exitCode
