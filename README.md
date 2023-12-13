@@ -12,7 +12,7 @@ to already be installed.
 ## Usage
 
 Run `lake build test` to build the test program. Then run `lake build` to build
-the utility. Running `lake exe lean2wasm` will compile the `Test` program.
+the utility. Running `lake exe lean2wasm` will compile the `Main` program.
 
 Once compiled, you can run `node .lake/build/wasm/main.js` to run the program.
 Alternatively you can use `lake run js`.

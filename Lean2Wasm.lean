@@ -5,16 +5,15 @@ import Lake
 open Lean System
 
 -- This is what we want to compile and should contain `main`
-def root : Name := `Test
+def root : Name := `Main
 
 def main : IO UInt32 := do
-
-  let outdir : FilePath := ".lake" / "build" / "wasm"
+  let outdir : FilePath := ".lake" / "build" / "wasm" -- todo generalise
   if ¬ (←FilePath.pathExists outdir) then
     IO.FS.createDirAll outdir
 
   let wasm_tc := s!"lean-{Lean.versionString}-linux_wasm32"
-  let toolchain : FilePath := "toolchains" / wasm_tc
+  let toolchain : FilePath := "toolchains" / wasm_tc -- should this be moved into `.lake`?
   if ¬ (←FilePath.pathExists toolchain) then
     IO.println "Couldn't find toolchain (should be in './toolchains') will try downloading."
 
@@ -75,6 +74,7 @@ def main : IO UInt32 := do
         , "-lleancpp"
         , "-lleanrt"
         , "-sFORCE_FILESYSTEM"
+        , "-sNODERAWFS"         -- allows node to directly interact w/ local FS
         , "-lnodefs.js"
         , "-sEXIT_RUNTIME=0"
         , "-sMAIN_MODULE=2" -- use 2 to reduce exports to a usable amount
@@ -84,7 +84,7 @@ def main : IO UInt32 := do
         , "-fwasm-exceptions"
         , "-pthread"
         , "-flto"
-        -- , "-Oz"    -- takes much longer to compile but optimises for size
+        -- , "-Oz"    -- takes longer to compile but optimises for size
         ]
     }
 

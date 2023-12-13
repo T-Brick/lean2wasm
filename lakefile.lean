@@ -14,11 +14,11 @@ lean_exe lean2wasm {
   root := `Lean2Wasm
 }
 
+lean_exe test where
+  root := `Main
+
 require mathlib from git
   "https://github.com/leanprover-community/mathlib4" @ "v4.4.0-rc1"
-
-lean_exe test where
-  root := `Test
 
 script js (args : List String) do
   let out ← IO.Process.output {
