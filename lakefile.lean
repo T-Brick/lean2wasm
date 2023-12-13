@@ -20,13 +20,13 @@ require mathlib from git
 lean_exe test where
   root := `Test
 
-script js do
+script js (args : List String) do
   let out ← IO.Process.output {
     stdin  := .piped
     stdout := .piped
     stderr := .piped
     cmd    := "node"
-    args   := #[ ".lake/build/wasm/main.js"]
+    args   := (".lake/build/wasm/main.js" :: args).toArray
   }
   IO.print out.stdout
   return out.exitCode
