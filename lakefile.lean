@@ -18,7 +18,7 @@ lean_exe test where
   root := `Main
 
 require mathlib from git
-  "https://github.com/leanprover-community/mathlib4" @ "v4.4.0-rc1"
+  "https://github.com/leanprover-community/mathlib4" @ "v4.5.0-rc1"
 
 script js (args : List String) do
   let out ← IO.Process.output {
