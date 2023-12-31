@@ -19,3 +19,12 @@ Alternatively you can use `lake run js`.
 
 If you want to change what is being compiled, in `Lean2Wasm.lean` just change
 the `root` variable.
+
+## Example
+
+[Here](https://github.com/T-Brick/c0_web_driver) is an example of embedding lean
+into a webpage. Importantly, we have to use the `MODULARIZE` flag so that we
+can invoke the `main` function multiple times since there are issues with doing
+so without resetting the emscripten runtime (specifically, emscripten generates
+a factory function which can then be invoked to initialise the runtime again
+and call `main`).

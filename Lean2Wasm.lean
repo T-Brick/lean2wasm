@@ -6,6 +6,8 @@ open Lean System
 
 -- This is what we want to compile and should contain `main`
 def root : Name := `Main
+-- Is this going to be ran on a webpage (i.e. should we MODULARIZE).
+def web : Bool := false
 
 def main : IO UInt32 := do
   let outdir : FilePath := ".lake" / "build" / "wasm" -- todo generalise
@@ -74,8 +76,11 @@ def main : IO UInt32 := do
         , "-lleancpp"
         , "-lleanrt"
         , "-sFORCE_FILESYSTEM"
-        , "-sNODERAWFS"         -- allows node to directly interact w/ local FS
-        , "-lnodefs.js"
+        ] ++ (if web
+              then #["-sMODULARIZE", "-sEXPORT_NAME=" ++ root.toString]
+              else #["-sNODERAWFS"] -- allows node to directly interact w/ local FS
+             ) ++
+       #[ "-lnodefs.js"
         , "-sEXIT_RUNTIME=0"
         , "-sMAIN_MODULE=2" -- use 2 to reduce exports to a usable amount
         , "-sLINKABLE=0"
