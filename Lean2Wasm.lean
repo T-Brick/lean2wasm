@@ -1,4 +1,4 @@
-import Mathlib.Util.Imports
+import ImportGraph.Imports
 import Std.Lean.Util.Path
 import Lake
 
@@ -9,7 +9,7 @@ def root : Name := `Main
 -- Is this going to be ran on a webpage (i.e. should we MODULARIZE).
 def web : Bool := false
 
-def main : IO UInt32 := do
+unsafe def main : IO UInt32 := do
   let outdir : FilePath := ".lake" / "build" / "wasm" -- todo generalise
   if ¬ (←FilePath.pathExists outdir) then
     IO.FS.createDirAll outdir
@@ -35,7 +35,7 @@ def main : IO UInt32 := do
   -- based on mathlib's import graph
   searchPathRef.set compile_time_search_path%
   let c_array ←
-    unsafe withImportModules #[{module := root}] {} (trustLevel := 1024)
+    withImportModules #[{module := root}] {} (trustLevel := 1024)
       fun env => do
         let graph := env.importGraph.filter (fun n _ =>
             -- already included in the toolchain

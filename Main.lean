@@ -1,4 +1,3 @@
-import Mathlib.Data.List.Basic -- requiring mathlib to see if it can be handled
 import Std
 
 def using_std_test : Std.HashMap Nat String :=
